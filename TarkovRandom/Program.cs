@@ -24,6 +24,8 @@ namespace TarkovRandom
 
 		public static JsonItems GetItemsFromFile(string file)
 		{
+			// Read in a file to get a list of strings, which are going to be items. 
+
 			string text = System.IO.File.ReadAllText($@"items\{file}.json");
 
 			JsonItems items = JsonSerializer.Deserialize<JsonItems>(text);
@@ -42,6 +44,7 @@ namespace TarkovRandom
 			var ammo = GetItemsFromFile("ammo").items;
 			var backpacks = GetItemsFromFile("backpacks").items;
 			var maps = GetItemsFromFile("maps").items;
+			var helmets = GetItemsFromFile("helmets").items;
 
 			// get some random on
 			Random random = new Random();
@@ -61,13 +64,14 @@ namespace TarkovRandom
 
 			var ChosenArmorInt = random.Next(ArmorList.Count);
 
-			var ChosenArmor = ArmorList[ChosenArmorInt];
+			var ChosenArmor = ArmorList[(random.Next(ArmorList.Count))];
 
 			Console.WriteLine($"Armor: {ChosenArmor.name}");
 
-			if (ChosenArmor.isArmored)
+			// if the rig is Armored, we don't need to get a Chest Rig too
+			if (ChosenArmor.isChestRig)
 			{
-				Console.WriteLine("Skipping rig, armored rig!");
+				Console.WriteLine("Armor is also a chest rig :D skipping Rig selection");
 			}
 			else
 			{
@@ -75,6 +79,8 @@ namespace TarkovRandom
 			}
 
 			// Then EZ-Mode for all the other types 
+
+			Console.WriteLine($"Helmet: {GetRandom(helmets)}");
 
 			Console.WriteLine($"Gun: {GetRandom(guns)}");
 
