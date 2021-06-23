@@ -1,38 +1,80 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TarkovRandom
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine($"Armor: {(GetRandom(items.Armor))}");
+	class Program
+	{
+		static void Main(string[] args)
+		{
 
-            Console.WriteLine($"Gun: {(GetRandom(items.Gun))}");
+			ConsoleKeyInfo cki;
+			do
+			{
+				Console.WriteLine();
+				Console.WriteLine("Press any key to generate a loadout, Escape to quit :)");
+				Console.WriteLine();
+				cki = Console.ReadKey();
+				GenerateLoadOut();
 
-            Console.WriteLine($"Rig: {(GetRandom(items.Rig))}");
+			}
+			while (cki.Key != ConsoleKey.Escape);
 
-            Console.WriteLine($"Backpack: {(GetRandom(items.Backpack))}");
+		}
 
-            Console.WriteLine($"Gun Build: {(GetRandom(items.GunBuild))}");
+		public static void GenerateLoadOut()
+		{
+			Random random = new Random();
 
-            Console.WriteLine($"Ammo: {(GetRandom(items.Ammo))}");
+			List<Armor> ArmorList = new List<Armor>();
 
-            Console.WriteLine($"Map: {(GetRandom(items.Map))}");
+			foreach (var armor in items.armors)
+			{
+				ArmorList.Add(new Armor(armor, false));
+			}
 
-            Console.ReadKey();
+			foreach (var armor in items.ArmoredRig)
+			{
+				ArmorList.Add(new Armor(armor, true));
+			}
 
-        }
+			var ChosenArmorInt = random.Next(ArmorList.Count);
 
-        public static string GetRandom(string[] itemArray)
-        {
-            Random random = new Random();
-                        
-            var randomItem = random.Next(0, itemArray.Length);
+			var ChosenArmor = ArmorList[ChosenArmorInt];
 
-            var itemPick = itemArray[randomItem];
+			Console.WriteLine($"Armor: {ChosenArmor.name}");
 
-            return itemPick;
-        }
-    }
+			if (ChosenArmor.isArmored)
+			{
+				Console.WriteLine("Skipping rig, armored rig!");
+			}
+			else
+			{
+				Console.WriteLine($"Rig: {(GetRandom(items.Rig))}");
+			}
+
+			Console.WriteLine($"Gun: {(GetRandom(items.Gun))}");
+
+			Console.WriteLine($"Backpack: {(GetRandom(items.Backpack))}");
+
+			Console.WriteLine($"Gun Build: {(GetRandom(items.GunBuild))}");
+
+			Console.WriteLine($"Ammo: {(GetRandom(items.Ammo))}");
+
+			Console.WriteLine($"Map: {(GetRandom(items.Map))}");
+
+		}
+
+
+		public static string GetRandom(string[] itemArray)
+		{
+			Random random = new Random();
+
+			var randomItem = random.Next(0, itemArray.Length);
+
+			var itemPick = itemArray[randomItem];
+
+			return itemPick;
+		}
+	}
 }

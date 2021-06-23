@@ -6,10 +6,12 @@ namespace TarkovRandom
 {
     class items
     {
-        public static string[] Armor =
+        public static string[] armors =
         {
-            "3M",
-            "PACA",
+
+
+			//Armor PACA = new Armor("PACA" , false);
+
             "6B2",
             "UNTAR",
             "PRESS Vest",
@@ -30,6 +32,11 @@ namespace TarkovRandom
             "Slick",
             "Zhuk-6a",
             "Zabralo"
+        };
+
+        public static string[] ArmoredRig =
+{
+            "Tactical Apron"
         };
 
         public static string[] Gun =
