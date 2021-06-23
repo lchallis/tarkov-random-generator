@@ -47,7 +47,6 @@ namespace TarkovRandom
 			Random random = new Random();
 
 			// we need a list of armors for knowing if armored rig etc. 
-
 			List<Armor> ArmorList = new List<Armor>();
 
 			foreach (var armor in armors)
