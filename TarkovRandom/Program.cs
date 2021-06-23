@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Text.Json;
+using System.IO;
 namespace TarkovRandom
 {
 	class Program
 	{
 		static void Main(string[] args)
 		{
-
 			ConsoleKeyInfo cki;
 			do
 			{
@@ -22,18 +22,40 @@ namespace TarkovRandom
 
 		}
 
+		public static JsonItems GetItemsFromFile(string file)
+		{
+			string text = System.IO.File.ReadAllText($@"items\{file}.json");
+
+			JsonItems items = JsonSerializer.Deserialize<JsonItems>(text);
+
+			return items;
+		}
+
 		public static void GenerateLoadOut()
 		{
+			// set up yo items
+			var armors = GetItemsFromFile("armor").items;
+			var armoredRigs = GetItemsFromFile("armoredrigs").items;
+			var rigs = GetItemsFromFile("rigs").items;
+			var guns = GetItemsFromFile("guns").items;
+			var gunBuilds = GetItemsFromFile("gunbuilds").items;
+			var ammo = GetItemsFromFile("ammo").items;
+			var backpacks = GetItemsFromFile("backpacks").items;
+			var maps = GetItemsFromFile("maps").items;
+
+			// get some random on
 			Random random = new Random();
+
+			// we need a list of armors for knowing if armored rig etc. 
 
 			List<Armor> ArmorList = new List<Armor>();
 
-			foreach (var armor in items.armors)
+			foreach (var armor in armors)
 			{
 				ArmorList.Add(new Armor(armor, false));
 			}
 
-			foreach (var armor in items.ArmoredRig)
+			foreach (var armor in armoredRigs)
 			{
 				ArmorList.Add(new Armor(armor, true));
 			}
@@ -50,18 +72,20 @@ namespace TarkovRandom
 			}
 			else
 			{
-				Console.WriteLine($"Rig: {(GetRandom(items.Rig))}");
+				Console.WriteLine($"Rig: {GetRandom(rigs)}");
 			}
 
-			Console.WriteLine($"Gun: {(GetRandom(items.Gun))}");
+			// Then EZ-Mode for all the other types 
 
-			Console.WriteLine($"Backpack: {(GetRandom(items.Backpack))}");
+			Console.WriteLine($"Gun: {GetRandom(guns)}");
 
-			Console.WriteLine($"Gun Build: {(GetRandom(items.GunBuild))}");
+			Console.WriteLine($"Backpack: {GetRandom(backpacks)}");
 
-			Console.WriteLine($"Ammo: {(GetRandom(items.Ammo))}");
+			Console.WriteLine($"Gun Build: {GetRandom(gunBuilds)}");
 
-			Console.WriteLine($"Map: {(GetRandom(items.Map))}");
+			Console.WriteLine($"Ammo: {GetRandom(ammo)}");
+
+			Console.WriteLine($"Map: {GetRandom(maps)}");
 
 		}
 
